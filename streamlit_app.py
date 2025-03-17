@@ -28,10 +28,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tensorflow.keras.preprocessing import image
 
-download_model()
-
 # Load the trained model
-model_path = "model_diseases.h5"  # Update this with your local path
+model_path = download_model()  # Update this with your local path
 model = tf.keras.models.load_model(model_path)
 
 # Define class labels
