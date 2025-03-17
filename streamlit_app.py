@@ -4,14 +4,15 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 import os
 
-url= "https://drive.google.com/file/d/1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF/view?usp=sharing"
-output = "model/model_diseases.h5"
-gdown.download(url, output, quiet=False)
+import streamlit as st
+import gdown
+import tensorflow as tf
+from tensorflow.keras.models import load_model
+import os
 
-
-# Model download function
+# Function to download the model from Google Drive
 def download_model():
-    model_url = "https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/raw/main/model/model_diseases.h5"
+    model_url = "https://drive.google.com/uc?id=YOUR_MODEL_FILE_ID"  # Replace with your actual file ID
     model_path = "model_diseases.h5"
 
     if not os.path.exists(model_path):
