@@ -6,17 +6,20 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 import os
 from PIL import Image
-
-import streamlit as st
-from PIL import Image
-import tensorflow as tf
-import numpy as np
 import matplotlib.pyplot as plt
-from tensorflow.keras.preprocessing import image
+
 
 # Load the trained model
-model_path = "https://drive.google.com/file/d/1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF/view?usp=sharing"  # Update this with your local path
-model = tf.keras.models.load_model(model_path)
+
+model_url = "https://drive.google.com/file/d/1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF/view?usp=sharing"  # Update this with your local path
+#model = tf.keras.models.load_model(model_path)
+
+model_path = "crop_disease_model.h5"
+
+if not os.path.exists(model_path):
+    with st.spinner("Downloading model..."):
+        gdown.download(model_url, model_path, quiet=False)
+
 
 # Define class labels
 class_labels = [
