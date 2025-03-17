@@ -1,15 +1,13 @@
 import gdown
 import streamlit as st
+import tensorflow as tf
+from tensorflow.keras.models import load_model
+import os
 
 url= "https://drive.google.com/file/d/1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF/view?usp=sharing"
 output = "model/model_diseases.h5"
 gdown.download(url, output, quiet=False)
 
-import streamlit as st
-import gdown
-import tensorflow as tf
-from tensorflow.keras.models import load_model
-import os
 
 # Model download function
 def download_model():
