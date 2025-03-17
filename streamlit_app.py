@@ -7,44 +7,16 @@ import numpy as np
 import os
 from PIL import Image
 
-# Function to extract Google Drive file ID
-def extract_file_id(drive_link):
-    if "id=" in drive_link:
-        return drive_link.split("id=")[-1]
-    elif "/d/" in drive_link:
-        return drive_link.split("/d/")[-1].split("/")[0]
-    else:
-        st.error("Invalid Google Drive link! 🚨")
-        return None
+import streamlit as st
+from PIL import Image
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow.keras.preprocessing import image
 
-# Function to download the model correctly
-def download_model():
-    model_url = "https://drive.google.com/file/d/1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF/view?usp=sharing"  
-    model_path = "model_diseases.h5"
-
-    if not os.path.exists(model_path):
-        st.info("Downloading model... Please wait ⏳")
-        file_id = extract_file_id(model_url)
-        if not file_id:
-            return None
-        
-        try:
-            gdown.download(f"https://drive.google.com/uc?id={file_id}", model_path, quiet=False)
-            st.success("✅ Model downloaded successfully!")
-        except Exception as e:
-            st.error(f"Failed to download model: {e}")
-            return None
-
-    return model_path
-
-# Download and load the model
-model_path = download_model()
-if model_path:
-    try:
-        model = load_model(model_path)
-        st.success("🔄 Model loaded successfully!")
-    except Exception as e:
-        st.error(f"Failed to load model: {e}")
+# Load the trained model
+model_path = "https://drive.google.com/file/d/1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF/view?usp=sharing"  # Update this with your local path
+model = tf.keras.models.load_model(model_path)
 
 # Define class labels
 class_labels = [
@@ -109,7 +81,7 @@ def predict_image(img):
     return predicted_class, confidence
 
 # Streamlit UI
-st.title("🌾 Crop Disease Detection AI")
+st.title("🌱 Crop Disease Detection AI")
 st.write("Upload an image of a crop to detect diseases and get solutions.")
 
 # File uploader
