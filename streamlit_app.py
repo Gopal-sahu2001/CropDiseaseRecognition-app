@@ -3,10 +3,13 @@ import gdown
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 import os
+from PIL import Image
+import numpy as np
+from tensorflow.keras.preprocessing import image
 
 # Function to download the model correctly
 def download_model():
-    model_url = "https://drive.google.com/file/d/1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF/view?usp=sharing"  # Replace with your actual file ID
+    model_url = "https://drive.google.com/uc?id=1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF"  # Updated to direct download link
     model_path = "model_diseases.h5"
 
     if not os.path.exists(model_path):
@@ -21,16 +24,15 @@ def download_model():
 
     return model_path
 
-import streamlit as st
-from PIL import Image
-import tensorflow as tf
-import numpy as np
-import matplotlib.pyplot as plt
-from tensorflow.keras.preprocessing import image
+# Call function to download model and get path
+model_path = download_model()
 
 # Load the trained model
-model_path ="/kaggle/input/crop-disease/other/default/1/model_diseases.h5"  # Update this with your local path
-model = tf.keras.models.load_model(model_path)
+if model_path and os.path.exists(model_path):
+    model = tf.keras.models.load_model(model_path)
+    st.success("Model loaded successfully ✅")
+else:
+    st.error("Failed to load model. Please check the model file.")
 
 # Define class labels
 class_labels = [
@@ -60,21 +62,9 @@ CropDiseaseSolution = {
         "Peak Season": "Rainy season and post-monsoon.",
         "Remedy": "Use neem oil or Bacillus thuringiensis-based biopesticides."
     },
-    "Healthy Maize": {
-        "Cause": "No disease detected.",
-        "Peak Season": "N/A",
-        "Remedy": "Crop is healthy, no diagnosis required."
-    },
-    "Healthy Wheat": {
-        "Cause": "No disease detected.",
-        "Peak Season": "N/A",
-        "Remedy": "Crop is healthy, no diagnosis required."
-    },
-    "Healthy cotton": {
-        "Cause": "No disease detected.",
-        "Peak Season": "N/A",
-        "Remedy": "Crop is healthy, no diagnosis required."
-    }
+    "Healthy Maize": {"Cause": "No disease detected.", "Peak Season": "N/A", "Remedy": "Crop is healthy, no diagnosis required."},
+    "Healthy Wheat": {"Cause": "No disease detected.", "Peak Season": "N/A", "Remedy": "Crop is healthy, no diagnosis required."},
+    "Healthy cotton": {"Cause": "No disease detected.", "Peak Season": "N/A", "Remedy": "Crop is healthy, no diagnosis required."}
 }
 
 # Preprocess image for model prediction
@@ -106,21 +96,24 @@ if uploaded_file is not None:
     img = Image.open(uploaded_file)
     
     # Predict
-    predicted_disease, confidence = predict_image(img)
+    if 'model' in globals():
+        predicted_disease, confidence = predict_image(img)
 
-    # Display uploaded image
-    st.image(img, caption="Uploaded Image", use_column_width=True)
+        # Display uploaded image
+        st.image(img, caption="Uploaded Image", use_column_width=True)
 
-    # Show prediction result
-    st.success(f"✅ **Predicted Disease:** {predicted_disease}")
-    st.info(f"🎯 **Confidence:** {confidence:.2f}%")
+        # Show prediction result
+        st.success(f"✅ **Predicted Disease:** {predicted_disease}")
+        st.info(f"🎯 **Confidence:** {confidence:.2f}%")
 
-    # Show disease solution if available
-    solution = CropDiseaseSolution.get(predicted_disease, None)
-    if solution:
-        st.write("### 🩺 Disease Details & Solution:")
-        st.write(f"📌 **Cause:** {solution['Cause']}")
-        st.write(f"🌱 **Peak Season:** {solution['Peak Season']}")
-        st.write(f"💊 **Remedy:** {solution['Remedy']}")
+        # Show disease solution if available
+        solution = CropDiseaseSolution.get(predicted_disease, None)
+        if solution:
+            st.write("### 🩺 Disease Details & Solution:")
+            st.write(f"📌 **Cause:** {solution['Cause']}")
+            st.write(f"🌱 **Peak Season:** {solution['Peak Season']}")
+            st.write(f"💊 **Remedy:** {solution['Remedy']}")
+        else:
+            st.warning("⚠️ No specific solution available.")
     else:
-        st.warning("⚠️ No specific solution available.")
+        st.error("🚨 Model not loaded. Please check for errors.")
