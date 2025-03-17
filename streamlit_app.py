@@ -29,7 +29,7 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.preprocessing import image
 
 # Load the trained model
-#model_path = "/kaggle/input/crop-disease/other/default/1/model_diseases.h5"  # Update this with your local path
+model_path = "https://drive.google.com/file/d/1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF/view?usp=sharing"  # Update this with your local path
 model = tf.keras.models.load_model(model_path)
 
 # Define class labels
