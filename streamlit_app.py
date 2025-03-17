@@ -30,7 +30,7 @@ from tensorflow.keras.preprocessing import image
 
 # Load the trained model
 #model_path = "/kaggle/input/crop-disease/other/default/1/model_diseases.h5"  # Update this with your local path
-#model = tf.keras.models.load_model(model_path)
+model = tf.keras.models.load_model(model_path)
 
 # Define class labels
 class_labels = [
