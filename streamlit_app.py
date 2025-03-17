@@ -12,11 +12,12 @@ import matplotlib.pyplot as plt
 # Load the trained model
 
 model_url = "https://drive.google.com/file/d/1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF/view?usp=sharing"  # Update this with your local path
-model = load_model(model_path)
+
 #model = tf.keras.models.load_model(model_path)
 
 model_path = "crop_disease_model.h5"
 
+model = load_model(model_path)
 if not os.path.exists(model_path):
     with st.spinner("Downloading model..."):
         gdown.download(model_url, model_path, quiet=False)
