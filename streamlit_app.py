@@ -9,7 +9,7 @@ from tensorflow.keras.preprocessing import image
 
 # Function to download the model correctly
 def download_model():
-    model_url = "https://drive.google.com/uc?id=1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF"  # Updated to direct download link
+    model_url = "https://drive.google.com/file/d/1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF/view?usp=sharing"  # Updated to direct download link
     model_path = "model_diseases.h5"
 
     if not os.path.exists(model_path):
