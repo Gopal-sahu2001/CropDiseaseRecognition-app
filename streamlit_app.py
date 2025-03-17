@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 # Load the trained model
 
 model_url = "https://drive.google.com/file/d/1TcEQ092-zqJ9YiPMdtiICZVDdACvtGlF/view?usp=sharing"  # Update this with your local path
+model = load_model(model_path)
 #model = tf.keras.models.load_model(model_path)
 
 model_path = "crop_disease_model.h5"
